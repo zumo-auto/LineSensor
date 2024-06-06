@@ -1,0 +1,71 @@
+#include <Zumo32U4.h>
+  #define xbee Serial1
+ 
+  Zumo32U4LineSensors lineSensors;
+
+  uint16_t lineSensorValues[5] = { 0, 0, 0, 0, 0 };
+
+
+  void setup()
+  {
+    xbee.begin(4800);
+    /* Configuration 1:
+    * - 3 line sensors (1, 3, 5)
+    */
+    lineSensors.initThreeSensors();
+  
+
+    calibrateLineSensors();
+
+   
+
+  }
+
+  void calibrateLineSensors() 
+  {
+    // To indicate we are in calibration mode, turn on the yellow LED
+    ledYellow(1);
+   
+
+    for (uint16_t i = 0; i < 400; i++)
+    {
+      lineSensors.calibrate();
+    }
+
+    ledYellow(0);
+  }
+
+
+
+  // Prints a line with all the sensor readings to the serial
+  // monitor.
+  void printReadingsToSerial()
+  {
+    static char buffer[80];
+    sprintf(buffer, "%4d %4d %4d\n",
+    
+      lineSensorValues[0],
+      lineSensorValues[1],
+      lineSensorValues[2],
+      lineSensorValues[3],
+      lineSensorValues[4]
+    );
+    xbee.print(buffer);
+  }
+
+  void loop()
+  {
+    static uint16_t lastSampleTime = 0;
+
+    if ((uint16_t)(millis() - lastSampleTime) >= 100)
+    {
+      lastSampleTime = millis();
+
+
+      // Read the line sensors.
+      lineSensors.readCalibrated(lineSensorValues);
+
+      // Send the results to the serial monitor.
+      printReadingsToSerial();
+    }
+  }
