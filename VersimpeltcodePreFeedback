@@ -1,0 +1,39 @@
+#include <Zumo32U4.h>
+#include <QTRSensors.h>
+#define xbee Serial1
+
+Zumo32U4LineSensors lineSensor;
+
+uint16_t sensorvalues[3]; 
+
+
+void setup() {
+
+Serial.begin(4800);
+
+lineSensor.initThreeSensors();
+
+xbee.println("Calibrating...");
+for (int i = 0; i < 200; i++)
+lineSensor.calibrate();
+delay(20);
+
+}
+
+void loop() {
+
+// dit is waar het main code inzit
+//hier willen we de waarde van de lijnsensoren uitprinten zodat we constant
+
+//hoger = zwart
+//lage cijfer = wit
+lineSensor.read(sensorvalues);
+Serial.println("Sensor 1: ");
+Serial.println(sensorvalues[0]);
+Serial.println("  Sensor 2: ");
+Serial.println(sensorvalues[1]);
+Serial.println("  Sensor 3: ");
+Serial.println(sensorvalues[2]);
+
+  delay(100);
+}
