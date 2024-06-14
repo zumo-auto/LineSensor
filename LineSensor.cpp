@@ -23,3 +23,12 @@ void ZumoLineSensor::calibrateSensors() {
     }
     Serial.println("Finished Calibration");
 }
+
+void ZumoLineSensor::printReadings() {
+    Serial.print("Left Sensor: ");
+    Serial.println(sensorValues[0]);
+    Serial.print("Middle Sensor: ");
+    Serial.println(sensorValues[1]);
+    Serial.print("Right Sensor: ");
+    Serial.println(sensorValues[2]);
+}
