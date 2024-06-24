@@ -29,10 +29,10 @@ void ZumoLineSensor::calibrateSensors() {
 
 //Print de sensor waardes.
 void ZumoLineSensor::printReadings() {
-    Serial.print("Left Sensor: ");
-    Serial.println(sensorValues[0]);
-    Serial.print("Middle Sensor: ");
-    Serial.println(sensorValues[1]);
-    Serial.print("Right Sensor: ");
-    Serial.println(sensorValues[2]);
+    xbee.print("Left Sensor: ");
+    xbee.println(sensorValues[0]);
+    xbee.print("Middle Sensor: ");
+    xbee.println(sensorValues[1]);
+    xbee.print("Right Sensor: ");
+    xbee.println(sensorValues[2]);
 }
